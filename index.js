@@ -22,7 +22,9 @@ const sendMessage = async (psid, message) => {
     message: {
       text: message
     }
-  });
+  }).catch(error => {
+    console.log('Error:', error.message);
+  })
 }
 
 app.listen(PORT, '', () => {
