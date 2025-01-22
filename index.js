@@ -27,9 +27,9 @@ const sendMessage = async (psid, message) => {
 app.listen(3000, '', () => {
   console.log('Server is running on port 3000');
 })
-ngrok.authtoken(process.env.NGROK_AUTHTOKEN);
-ngrok.connect({ addr: 3000, domain: process.env.NGROK_STATIC_DOMAIN })
-	.then(listener => console.log(`Ingress established at: ${listener.url()}`));
+// ngrok.authtoken(process.env.NGROK_AUTHTOKEN);
+// ngrok.connect({ addr: 3000, domain: process.env.NGROK_STATIC_DOMAIN })
+// 	.then(listener => console.log(`Ingress established at: ${listener.url()}`));
 
 app.get('/facebook/webhook', async (req, res) => {
   const query = req.query;
