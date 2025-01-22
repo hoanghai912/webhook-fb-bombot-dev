@@ -11,6 +11,7 @@ app.use(bodyParser.json());
 
 let response_data = null;
 const pageAccessToken = process.env.PAGE_ACCESS_TOKEN;
+const PORT = process.env.PORT || 3000;
 
 const sendMessage = async (psid, message) => {
   const accessToken = pageAccessToken
@@ -24,8 +25,8 @@ const sendMessage = async (psid, message) => {
   });
 }
 
-app.listen(3000, '', () => {
-  console.log('Server is running on port 3000');
+app.listen(PORT, '', () => {
+  console.log('Server is running on port', PORT);
 })
 // ngrok.authtoken(process.env.NGROK_AUTHTOKEN);
 // ngrok.connect({ addr: 3000, domain: process.env.NGROK_STATIC_DOMAIN })
