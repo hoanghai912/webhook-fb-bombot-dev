@@ -88,7 +88,7 @@ app.post('/facebook/webhook', async (req, res) => {
 app.get('/data', async (req, res) => {
   const weatherTemp = await axios.get('https://weathernews.com/weather/en/vn/cGxhY2UuNTE0NDQsMTAuOTQ3ODAwLDEwNi44MTkzMTU=/')
   .then(response => {
-    const regexp = /<p class="high" data-v-e230813b>(.*?)<\/p>/g
+    const regexp = /<p class="temp" data-v-e230813b>(.*?)<\/p>/g
     const matches = regexp.exec(response.data)[1];
     return matches;
   })
