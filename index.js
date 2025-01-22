@@ -65,6 +65,7 @@ app.post('/facebook/webhook', async (req, res) => {
       const senderPsid = webhookEvent.sender.id;
       if (webhookEvent.message) { 
         const message = webhookEvent.message.text.toLowerCase();
+        console.log('User Message:', message);
         if (message === 'hi' || message === 'hello') {
           sendMessage(senderPsid, "Hello, how can I help you?");
         }
