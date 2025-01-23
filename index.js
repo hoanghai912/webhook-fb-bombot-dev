@@ -34,8 +34,14 @@ let response_data = null;
 const pageAccessToken = process.env.PAGE_ACCESS_TOKEN;
 const PORT = process.env.PORT || 3000;
 
-const sendMessage = async (psid, message) => {
-  const accessToken = pageAccessToken
+const sendMessage = async (psid, pageId, message) => {
+  // const accessToken = pageAccessToken
+  const accessToken = await database('fanpages').where('id', pageId).select('accessToken').first()
+  .then(data => data.accessToken)
+  .catch(error => {
+    console.error('Error:', error.message);
+    return null;
+  });
   await axios.post(`https://graph.facebook.com/v21.0/me/messages?access_token=${accessToken}`, {
     recipient: {
       id: psid
@@ -84,18 +90,19 @@ app.post('/facebook/webhook', async (req, res) => {
     body.entry.forEach(entry => {
       const webhookEvent = entry.messaging[ 0];
       const senderPsid = webhookEvent.sender.id;
+      const pageId = webhookEvent.recipient.id;
       if (webhookEvent.message) { 
         const message = webhookEvent.message.text.toLowerCase();
         console.log('User Message:', message);
         if (message === 'hi' || message === 'hello') {
-          sendMessage(senderPsid, "Hello, how can I help you?");
+          sendMessage(senderPsid, pageId, "Hello, how can I help you?");
         }
         if (message === 'bye') {
-          sendMessage(senderPsid, "Goodbye, see you later!");
+          sendMessage(senderPsid, pageId, "Goodbye, see you later!");
         }
         if (message === 'weather') {
           
-          sendMessage(senderPsid, "The temp of Bien Hoa, Vietnam is " + weatherTemp + 'C');
+          sendMessage(senderPsid, pageId, "The temp of Bien Hoa, Vietnam is " + weatherTemp + 'C');
         }
       }
     });
