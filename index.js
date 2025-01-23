@@ -3,7 +3,28 @@ const axios = require('axios');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const ngrok = require('@ngrok/ngrok');
+const knex = require('knex');
 require('dotenv').config();
+
+const dbConfig = {
+  client: 'pg',
+  connection: {
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    ssl: true
+  }
+}
+const database = knex(dbConfig);
+database.raw('SELECT 1')
+  .then(() => {
+    console.log('Connected to the database');
+  })
+  .catch((error) => {
+    console.error('Error connecting to the database:', error.message);
+  });
 
 const app = express();
 app.use(cors());
@@ -94,6 +115,29 @@ app.get('/data', async (req, res) => {
   })
   console.log(weatherTemp);
   return res.status(200).send(weatherTemp);
+})
+
+
+app.post('/facebook/addPageData', async (req, res) => {
+  const body = req.body;
+  const pageId = body.pageId;
+  const pageAccessToken = body.pageAccessToken;
+
+  if (!pageId || !pageAccessToken) {
+    return res.status(400).send('Bad request');
+  }
+
+  const result = await database('fanpages').insert({
+    id: pageId,
+    accessToken: pageAccessToken
+  }).onConflict('id').merge()
+  .then(() => true)
+  .catch((error) => {
+    console.error('Error:', error.message);
+    return false;
+  });
+  
+  return res.status(200).json({success: result});
 })
 
 app.get('/', async (req, res) => {
