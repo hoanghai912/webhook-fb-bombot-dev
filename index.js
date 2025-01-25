@@ -97,10 +97,10 @@ app.post('/facebook/webhook', async (req, res) => {
         if (message === 'hi' || message === 'hello') {
           sendMessage(senderPsid, pageId, "Hello, how can I help you?");
         }
-        if (message === 'bye') {
+        else if (message === 'bye') {
           sendMessage(senderPsid, pageId, "Goodbye, see you later!");
         }
-        if (message === 'weather') {
+        else if (message === 'weather') {
           sendMessage(senderPsid, pageId, "The temp of Bien Hoa, Vietnam is " + weatherTemp + 'C');
         }
         else {
