@@ -160,5 +160,7 @@ app.get('/facebook/get2faTestAccount', async (req, res) => {
 })
 
 app.get('/', async (req, res) => {
-  res.status(404).send('Not found');
+  res.status(200).send("Express on Vercel");
 })
+
+module.exports = app;
