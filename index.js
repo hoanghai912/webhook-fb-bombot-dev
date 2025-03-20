@@ -101,7 +101,7 @@ app.post('/facebook/webhook', async (req, res) => {
           sendMessage(senderPsid, pageId, "Goodbye, see you later!");
         }
         else if (message === 'weather') {
-          sendMessage(senderPsid, pageId, "The temp of Bien Hoa, Vietnam is " + weatherTemp + 'C');
+          sendMessage(senderPsid, pageId, "The temp of Bien Hoa, Vietnam is " + weatherTemp + '°C');
         }
         else {
           sendMessage(senderPsid, pageId, "Sorry, I don't support this command");
@@ -118,7 +118,7 @@ app.post('/facebook/webhook', async (req, res) => {
 app.get('/data', async (req, res) => {
   const weatherTemp = await axios.get('https://weathernews.com/weather/en/vn/cGxhY2UuNTE0NDQsMTAuOTQ3ODAwLDEwNi44MTkzMTU=/')
   .then(response => {
-    const regexp = /<p class="temp" data-v-e230813b>(.*?)<s/g
+    const regexp = /<p class="temp" .*?>(.*?)<s/g
     const matches = regexp.exec(response.data)[1];
     return matches;
   })
