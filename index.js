@@ -149,15 +149,15 @@ app.post('/facebook/addPageData', async (req, res) => {
   return res.status(200).json({success: result});
 })
 
-app.get('/facebook/get2faTestAccount', async (req, res) => {
-  const result = await axios.get('https://thanhlike.com/modun/tool/get_facebook.php?type=get2fa&code=FLU7JIXJ7RAZ4KHOIDQ7Q357EP6IQG55')
-  .then(response => response.data)
-  .catch(error => {
-    console.error('Error:', error.message);
-    return null;
-  });
-  return res.status(200).json({code: result});
-})
+// app.get('/facebook/get2faTestAccount', async (req, res) => {
+//   const result = await axios.get('https://thanhlike.com/modun/tool/get_facebook.php?type=get2fa&code=FLU7JIXJ7RAZ4KHOIDQ7Q357EP6IQG55')
+//   .then(response => response.data)
+//   .catch(error => {
+//     console.error('Error:', error.message);
+//     return null;
+//   });
+//   return res.status(200).json({code: result});
+// })
 
 app.get('/', async (req, res) => {
   res.status(200).send("Express on Vercel");
